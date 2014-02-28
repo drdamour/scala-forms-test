@@ -1,0 +1,22 @@
+@(theForm:Form[FormData], action : play.api.mvc.Call, iConstructorArgs:Seq[(Symbol,Any)] = Seq(), jConstructorArgs:Seq[(Symbol,Any)] = Seq())
+
+@import helper._
+
+@main("Data View") {
+    @form(action) {
+        @inputText(theForm("i"), iConstructorArgs:_*)
+
+        @select(theForm("j"),  Seq("1" -> "one", "2"-> "two", "" -> "blank" ), jConstructorArgs:_*)
+
+        <input type="submit"></input>
+    }
+
+    <h2>FormData</h2>
+    @theForm.value.toString
+
+    <h2>i Field Info</h2>
+    @theForm("i").value.toString
+
+    <h2>j Field Info</h2>
+    @theForm("j").value.toString
+}

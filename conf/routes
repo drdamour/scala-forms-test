@@ -1,0 +1,18 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET        /simple                            controllers.Application.simple
+
+GET        /defaults                          controllers.Application.defaults
+
+GET        /constructorDefaultsInvalid        controllers.Application.constructorDefaultsInvalid
+GET        /constructorDefaultsValid          controllers.Application.constructorDefaultsValid
+
+GET        /invalidData                       controllers.Application.invalidData
+
+GET        /validNotPresent                   controllers.Application.validNotPresent
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET        /assets/*file                      controllers.Assets.at(path="/public", file)
