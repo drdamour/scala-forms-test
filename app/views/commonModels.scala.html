@@ -1,0 +1,51 @@
+@(theAs: Seq[TypeA], theBs: Seq[TypeB], postForm:Form[ModelsFormData])
+
+@import helper._
+
+@main("Models") {
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @theAs.map { anA =>
+            <tr>
+                <td>@anA.id.get</td>
+                <td>@anA.name</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        @theBs.map { aB =>
+            <tr>
+                <td>@aB.id.get</td>
+                <td>@aB.prop2</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+
+    @form(routes.ModelsController.postback()) {
+        @select(postForm("selectedA"), Seq(("100000", "Not in DB")) ++ theAs.map(i => (i.id.get.toString, i.name)),  '_showConstraints -> false)
+
+        @select(postForm("selectedB"), Seq(("100000", "Not in DB")) ++ theBs.map(i => (i.id.get.toString, i.prop2)),  '_showConstraints -> false)
+
+        <input type="submit"></input>
+    }
+
+}
