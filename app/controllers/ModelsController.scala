@@ -13,6 +13,7 @@ case class ModelsFormData(selectedA:Int, selectedB:Int)
 
 object ModelsController extends Controller {
 
+  /*
   def typeAExistsInDB: Constraint[Int] = Constraint("constraints.existenceInDBRequired")({
     id =>
       DB.withSession { implicit s: Session =>
@@ -40,12 +41,24 @@ object ModelsController extends Controller {
         }
       }
   })
+  */
 
+  def existsInDB[T <: CommonBaseType](t:Table[T]): Constraint[Int] = Constraint("constraints.existenceInDBRequired")({
+    id =>
+      DB.withSession { implicit s: Session =>
+
+        if (Query(Query(t).filter(_.id === id).exists).first) {
+          Valid
+        } else {
+          Invalid("constraints.existenceInDBRequired")
+        }
+      }
+  })
 
   val form = Form(
     mapping(
-      "selectedA" -> number.verifying(typeAExistsInDB),
-      "selectedB" -> number.verifying(typeBExistsInDB)
+      "selectedA" -> number.verifying(existsInDB),
+      "selectedB" -> number.verifying(existsInDB)
     )(ModelsFormData.apply)(ModelsFormData.unapply)
   )
 
