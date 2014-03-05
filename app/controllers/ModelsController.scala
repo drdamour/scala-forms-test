@@ -43,7 +43,7 @@ object ModelsController extends Controller {
   })
   */
 
-  def existsInDB[T <: CommonBaseType](t:Table[T]): Constraint[Int] = Constraint("constraints.existenceInDBRequired")({
+  def existsInDB[T <: CommonBaseType](t:CommonBaseTypeTable[T]): Constraint[Int] = Constraint("constraints.existenceInDBRequired")({
     id =>
       DB.withSession { implicit s: Session =>
 
@@ -57,8 +57,8 @@ object ModelsController extends Controller {
 
   val form = Form(
     mapping(
-      "selectedA" -> number.verifying(existsInDB),
-      "selectedB" -> number.verifying(existsInDB)
+      "selectedA" -> number.verifying(existsInDB(TypeATable)),
+      "selectedB" -> number.verifying(existsInDB(TypeBTable))
     )(ModelsFormData.apply)(ModelsFormData.unapply)
   )
 
